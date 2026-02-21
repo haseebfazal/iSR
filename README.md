@@ -31,7 +31,8 @@ From the repo root:
 ```bash
 python infer.py   --input_dir Example_images/X4_stitch   --out_dir results/   --sicnet_ckpt checkpoints/BeatSaber/scale4Channels32.pth   --sr_ckpt checkpoints_SR/BeatSaber/scale4Channels48Block4.ckpt
 ```
-```CPU-Only
+CPU_Only:
+```bash
 python infer.py   --input_dir Example_images/X4_stitch   --out_dir results/   --sicnet_ckpt checkpoints/BeatSaber/scale4Channels32.pth   --sr_ckpt checkpoints_SR/BeatSaber/scale4Channels48Block4.ckpt --device cpu
 ```
 
