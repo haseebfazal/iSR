@@ -1,0 +1,13 @@
+# Core
+yacs
+einops
+pytorch-lightning
+torchsummary
+
+# I/O + vision
+opencv-python
+Pillow
+
+# Utils / plots
+numpy
+matplotlib
