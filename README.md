@@ -25,37 +25,79 @@ pip install -r requirements.txt
 
 ---
 
+## Checkpoints
+
+Model checkpoints are hosted on Google Drive (too large to include in the repository):
+
+📁 **[Download checkpoints](https://drive.google.com/drive/folders/12ruw5OJn9GsTKiljB9fHj_CVRkOfyqZF?usp=sharing)**
+
+Download the folders and place them as follows:
+
+```
+iSR/
+├── checkpoints/
+│   └── BeatSaber/
+│       └── scale4Channels32.pth
+└── checkpoints_SR/
+    └── BeatSaber/
+        └── scale4Channels48Block4.ckpt
+```
+
+---
+
 ## Quick start (Inference)
 
 From the repo root:
 ```bash
-python infer.py   --input_dir Example_images/X4_stitch   --out_dir results/   --sicnet_ckpt checkpoints/BeatSaber/scale4Channels32.pth   --sr_ckpt checkpoints_SR/BeatSaber/scale4Channels48Block4.ckpt
+python infer.py \
+  --input_dir   Example_images/X4_stitch \
+  --out_dir     results/ \
+  --sicnet_ckpt checkpoints/BeatSaber/scale4Channels32.pth \
+  --sr_ckpt     checkpoints_SR/BeatSaber/scale4Channels48Block4.ckpt
 ```
-CPU_Only:
+
+CPU only (no GPU required):
 ```bash
-python infer.py   --input_dir Example_images/X4_stitch   --out_dir results/   --sicnet_ckpt checkpoints/BeatSaber/scale4Channels32.pth   --sr_ckpt checkpoints_SR/BeatSaber/scale4Channels48Block4.ckpt --device cpu
+python infer.py \
+  --input_dir   Example_images/X4_stitch \
+  --out_dir     results/ \
+  --sicnet_ckpt checkpoints/BeatSaber/scale4Channels32.pth \
+  --sr_ckpt     checkpoints_SR/BeatSaber/scale4Channels48Block4.ckpt \
+  --device cpu
 ```
 
 ### Arguments
-- `--input_dir`: directory containing input images (see `Example_images/`)
-- `--out_dir`: output directory (created if missing)
-- `--sicnet_ckpt`: stereo colorization checkpoint (`.pth`)
-- `--sr_ckpt`: super-resolution checkpoint (`.ckpt`)
 
-> Note: Input format depends on `infer.py`. In this project, inputs are typically **stereo/SBS (side-by-side) VR frames**. If your inputs differ, adjust preprocessing in `infer.py` accordingly.
+| Argument | Description |
+|---|---|
+| `--input_dir` | Directory containing input SBS PNG images (see `Example_images/`) |
+| `--out_dir` | Output directory — created automatically if missing |
+| `--sicnet_ckpt` | Path to stereo colorization checkpoint (`.pth`) |
+| `--sr_ckpt` | Path to super-resolution checkpoint (`.ckpt`) — omit to skip SR |
+| `--device` | `cuda` (default) or `cpu` |
+| `--overwrite` | Re-process images even if output already exists |
+
+> **Input format:** inputs are stereo SBS (side-by-side) VR frames — left half is the grayscale source, right half is the RGB reference. Sample frames are provided in `Example_images/`.
 
 ---
 
-## Repository structure (high level)
+## Repository structure
 
-- `infer.py` : inference entry point
-- `model/` : stereo colorization model code (SICNet/SiCNet-based)
-- `model_SR/` : super-resolution model code
-- `checkpoints/` : colorization checkpoints (avoid committing)
-- `checkpoints_SR/` : SR checkpoints (avoid committing)
-- `config.py`, `config_ft.py` : model/config settings
-- `trt_build_color_and_sr.py` : ONNX export + TensorRT engine builder (optional)
-
+```
+iSR/
+├── infer.py                    # Inference entry point (CLI)
+├── config.py                   # SICNet model config
+├── config_ft.py                # SR model config
+├── utils.py                    # Shared utilities (reparameterize, etc.)
+├── model/                      # Stereo colorization model (SICNet)
+├── model_SR/                   # Super-resolution model
+├── Example_images/             # Sample SBS input frames
+├── checkpoints/                # Colorization checkpoints (download separately)
+├── checkpoints_SR/             # SR checkpoints (download separately)
+├── requirements.txt            # Python dependencies
+├── trt_build_color_and_sr.py   # Optional: ONNX export + TensorRT engine builder
+└── Artifact.ipynb              # Reviewer notebook (environment setup + execution)
+```
 
 ---
 
