@@ -29,7 +29,10 @@ pip install -r requirements.txt
 
 From the repo root:
 ```bash
-python infer.py   --input_dir Example_images/   --out_dir results/   --sicnet_ckpt checkpoints/BeatSaber/scale4Channels32.pth   --sr_ckpt checkpoints_SR/BeatSaber/scale4Channels48Block4.ckpt
+python infer.py   --input_dir Example_images/X4_stitch   --out_dir results/   --sicnet_ckpt checkpoints/BeatSaber/scale4Channels32.pth   --sr_ckpt checkpoints_SR/BeatSaber/scale4Channels48Block4.ckpt
+```
+```CPU-Only
+python infer.py   --input_dir Example_images/X4_stitch   --out_dir results/   --sicnet_ckpt checkpoints/BeatSaber/scale4Channels32.pth   --sr_ckpt checkpoints_SR/BeatSaber/scale4Channels48Block4.ckpt --device cpu
 ```
 
 ### Arguments
@@ -52,19 +55,6 @@ python infer.py   --input_dir Example_images/   --out_dir results/   --sicnet_ck
 - `config.py`, `config_ft.py` : model/config settings
 - `trt_build_color_and_sr.py` : ONNX export + TensorRT engine builder (optional)
 
----
-
-## Optional: TensorRT (export + build engines)
-
-If you plan to use `trt_build_color_and_sr.py`, you’ll also need:
-- TensorRT (system install matching your CUDA)
-- `pycuda`
-- `onnx`
-
-Then run (example):
-```bash
-python trt_build_color_and_sr.py   --sicnet_ckpt /path/to/sicnet.ckpt   --calib_dir /path/to/calib_sbs_images   --out_dir ./trt_out   --fp16_only   --export-device cpu
-```
 
 ---
 
