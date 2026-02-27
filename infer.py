@@ -40,7 +40,12 @@ import torch
 import torch.nn.functional as F
 
 # ---------- safe globals for torch.load(weights_only=True) ----------
-from torch.serialization import add_safe_globals
+try:
+    from torch.serialization import add_safe_globals
+except ImportError:
+    # Torch < 2.4 doesn't have add_safe_globals
+    def add_safe_globals(*args, **kwargs):
+        return None
 from yacs.config import CfgNode
 from collections import defaultdict
 add_safe_globals([CfgNode, set, frozenset, defaultdict])
